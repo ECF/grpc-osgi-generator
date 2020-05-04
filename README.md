@@ -94,7 +94,7 @@ Currently the easiest way to use protoc with both the grpc-java plugin and this 
 
 It's typically easiset to declare versions from within the Maven pom.xml properties section
 
-```maven
+```xml
 <properties>
 <!-- your other properties -->
 	<grpc.version>1.29.0</grpc.version>
@@ -105,7 +105,7 @@ It's typically easiset to declare versions from within the Maven pom.xml propert
 
 Then in the same pom.xml these dependencies should be present
 
-```maven
+```xml
 	<dependencies>
 		<dependency>
 			<groupId>io.grpc</groupId>
@@ -142,7 +142,7 @@ Then in the same pom.xml these dependencies should be present
 
 Finally, the following extension and plugins should be in your build section (along with any other maven plugins like compile, clean, etc)
 
-```maven
+```xml
 	<build>
 		<extensions>
 			<extension>
