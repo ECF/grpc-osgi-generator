@@ -9,7 +9,7 @@ Service interface generator plugin to enhance the behavior of the [grpc-java](ht
 
 [Here](https://raw.githubusercontent.com/ECF/grpc-RemoteServicesProvider/master/examples/org.eclipse.ecf.examples.provider.grpc.health.api/src/main/proto/health.proto) is a grpc example proto file input file:
 
-~~~
+```proto
 // Copyright 2015 The gRPC Authors
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -55,7 +55,7 @@ service HealthCheck {
   // Streaming method
   rpc Watch(HealthCheckRequest) returns (stream HealthCheckResponse);
 }
-~~~
+```
 
 Note that HealthCheckRequest and HealthCheckResponse are protocol buffers messages, and that the HealthCheck service is declared with both a unary method (Check), and a streaming method (Watch).
 
