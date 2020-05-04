@@ -94,18 +94,18 @@ Currently the easiest way to use protoc with both the grpc-java plugin and this 
 
 It's typically easiset to declare versions from within the Maven pom.xml properties section
 
-~~~
+```maven
 <properties>
 <!-- your other properties -->
-		<grpc.version>1.29.0</grpc.version>
-		<protoc.version>3.11.4</protoc.version>
-		<jprotoc.version>1.0.1</jprotoc.version>
-	</properties>
-~~~
+	<grpc.version>1.29.0</grpc.version>
+	<protoc.version>3.11.4</protoc.version>
+	<jprotoc.version>1.0.1</jprotoc.version>
+</properties>
+```
 
 Then in the same pom.xml these dependencies should be present
 
-~~~
+```maven
 	<dependencies>
 		<dependency>
 			<groupId>io.grpc</groupId>
@@ -137,13 +137,12 @@ Then in the same pom.xml these dependencies should be present
 			<artifactId>grpc-stub</artifactId>
 			<version>${grpc.version}</version>
 		</dependency>
-
 	</dependencies>
-~~~
+```
 
 Finally, the following extension and plugins should be in your build section (along with any other maven plugins like compile, clean, etc)
 
-~~~
+```maven
 	<build>
 		<extensions>
 			<extension>
@@ -188,6 +187,6 @@ Finally, the following extension and plugins should be in your build section (al
 			</plugin>
 		</plugins>  
   </build>
-~~~
+```
 Note in the above that the protoc + grpc-java plugin + grpc-osgi-generator will be run as part of a build (generate-sources phase) on **any .proto files in ./src/main/proto** directory and output to the **./target/generated-sources/java/** directory.  
 
