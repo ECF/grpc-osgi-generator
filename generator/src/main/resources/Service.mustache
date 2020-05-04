@@ -1,0 +1,19 @@
+{{#packageName}}
+package {{packageName}};
+{{/packageName}}
+
+@javax.annotation.Generated(
+value = "by OSGi Remote Services generator",
+comments = "Source: {{protoName}}")
+{{#javaDoc}}
+{{{javaDoc}}}
+{{/javaDoc}}
+public interface {{className}} {
+
+    {{#unaryRequestMethods}}
+    {{#javaDoc}}
+    {{{javaDoc}}}
+    {{/javaDoc}}
+    {{outputType}} {{methodNameCamelCase}}({{inputType}} request);
+    {{/unaryRequestMethods}}
+}
