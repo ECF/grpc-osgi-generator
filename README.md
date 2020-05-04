@@ -1,7 +1,7 @@
 # grpc-osgi-generator
 Service interface generator plugin for grpc.  This project implements a plugin for [Google's Protocol Buffers](https://developers.google.com/protocol-buffers) protoc code generator.  It's designed to work alongside the [grpc-java compiler](https://github.com/grpc/grpc-java).
 
-What grpc-java does
+## What grpc-java does
 
 The grpc-java protoc plugin takes a service declaration from within a .proto file and generates java source code dependent upon grpc.  For example [here](https://raw.githubusercontent.com/ECF/grpc-RemoteServicesProvider/master/examples/org.eclipse.ecf.examples.provider.grpc.health.api/src/main/proto/health.proto) is a grpc example proto file:
 
