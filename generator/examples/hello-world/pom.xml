@@ -10,7 +10,6 @@
 	<version>1.0-SNAPSHOT</version>
 
 	<properties>
-		<grpc.contrib.version>0.8.0</grpc.contrib.version>
 		<grpc.version>1.12.0</grpc.version>
 		<protoc.version>3.5.1</protoc.version>
 		<jprotoc.version>0.9.1</jprotoc.version>
@@ -88,12 +87,11 @@
 						<configuration>
 							<protocPlugins>
 								<protocPlugin>
-									<id>grpcosgi</id>
+									<id>grpc-osgi-generator</id>
 									<groupId>org.eclipse.ecf</groupId>
 									<artifactId>grpc-osgi-generator</artifactId>
 									<version>1.0.0-SNAPSHOT</version>
-									<mainClass>org.eclipse.ecf.grpc.osgigenerator.OSGiGenerator
-									</mainClass>
+									<mainClass>org.eclipse.ecf.grpc.osgigenerator.OSGiGenerator</mainClass>
 								</protocPlugin>
 							</protocPlugins>
 						</configuration>
