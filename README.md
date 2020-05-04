@@ -1,2 +1,2 @@
 # grpc-osgi-generator
-Service interface generator plugin for grpc
+Service interface generator plugin for protoc.
