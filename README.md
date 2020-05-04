@@ -1,9 +1,11 @@
 # grpc-osgi-generator
-Service interface generator plugin to enhance the behavior of the [grpc-java](https://github.com/grpc/grpc-java) compiler.  Both this plugin and the grpc-java plugin are plugins for [Google's Protocol Buffers](https://developers.google.com/protocol-buffers) protoc code generator.  When protoc is run with this plugin and the grpc-java plugin the following 3 types of java classes are generated:
+This project implements a protoc plugin to enhance the behavior of the [grpc-java](https://github.com/grpc/grpc-java) compiler.  Both this plugin and the grpc-java plugin are plugins for [Google's Protocol Buffers](https://developers.google.com/protocol-buffers) protoc code generator.  When protoc is run with both this plugin and the grpc-java plugin the following 3 types of java classes are generated:
 
-1 classes representing protobuf messages and options -- via protoc with java as generator output
-1 classes providing access to grpc-based services -- via grcp-java compiler plugin
-! classes providing support for using OSGi Remote Services -- via the plugin provided by this project
+1 classes representing protobuf messages and options -- via protoc 
+1 classes providing access to grpc-based services -- via grcp-java plugin
+1 classes providing support for using OSGi Services -- via this plugin 
+
+This plugin is responsible for generating a service interface: a java interface that provides a contract for consumers to interact with the service as per [OSGi Services](https://www.osgi.org/developer/architecture/).
 
 ## What running protoc + grpc-osgi-generator plugin + [grpc-java](https://github.com/grpc/grpc-java) plugin does
 
