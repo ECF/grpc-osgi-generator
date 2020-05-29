@@ -2,6 +2,10 @@
 package {{packageName}};
 {{/packageName}}
 
+{{#importClassNames}}
+import {{importClass}};
+{{/importClassNames}}
+
 @javax.annotation.Generated(
 value = "by OSGi Remote Services generator",
 comments = "Source: {{protoName}}")
@@ -11,9 +15,39 @@ comments = "Source: {{protoName}}")
 public interface {{className}} {
 
     {{#unaryRequestMethods}}
+    
     {{#javaDoc}}
     {{{javaDoc}}}
     {{/javaDoc}}
-    {{outputType}} {{methodNameCamelCase}}({{inputType}} request);
+    default {{outputType}} {{methodNameCamelCase}}({{inputType}} request) {
+        {{defaultBody}};
+    }
     {{/unaryRequestMethods}}
+    {{#serverStreamingRequestMethods}}
+    
+    {{#javaDoc}}
+    {{{javaDoc}}}
+    {{/javaDoc}}
+    default {{outputType}}<{{outputGenericType}}> {{methodNameCamelCase}}({{inputType}}<{{inputGenericType}}> request)  {
+        {{defaultBody}};
+    }
+    {{/serverStreamingRequestMethods}}
+    {{#clientStreamingRequestMethods}}
+    
+    {{#javaDoc}}
+    {{{javaDoc}}}
+    {{/javaDoc}}
+    default {{outputType}}<{{outputGenericType}}> {{methodNameCamelCase}}({{inputType}}<{{inputGenericType}}> requests)  {
+        {{defaultBody}};
+    }
+    {{/clientStreamingRequestMethods}}
+    {{#bidiStreamingRequestMethods}}
+    
+    {{#javaDoc}}
+    {{{javaDoc}}}
+    {{/javaDoc}}
+    default {{outputType}}<{{outputGenericType}}> {{methodNameCamelCase}}({{inputType}}<{{inputGenericType}}> requests)  {
+        {{defaultBody}};
+    }
+    {{/bidiStreamingRequestMethods}}
 }
