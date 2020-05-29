@@ -16,18 +16,62 @@ service HealthCheck {
   rpc Watch2(stream HealthCheckRequest) returns (stream HealthCheckResponse);
 }
 ```
+From this proto file, this plugin will generate this service interface
 
-The plugin depends upon two other protoc plugins
+```java
+package io.grpc.health.v1;
 
+@javax.annotation.Generated(
+value = "by OSGi Remote Services generator",
+comments = "Source: health.proto")
+public interface HealthCheckService {
 
+    
+    default io.grpc.health.v1.HealthCheckResponse check(io.grpc.health.v1.HealthCheckRequest request) {
+        return null;
+    }
+    
+    /**
+     * <pre>
+     *  Server streaming method
+     * </pre>
+     */
+    default io.reactivex.Flowable<io.grpc.health.v1.HealthCheckResponse> watch(io.reactivex.Single<io.grpc.health.v1.HealthCheckRequest> request)  {
+        return null;
+    }
+    
+    /**
+     * <pre>
+     *  Client streaming method
+     * </pre>
+     */
+    default io.reactivex.Single<io.grpc.health.v1.HealthCheckResponse> watch1(io.reactivex.Flowable<io.grpc.health.v1.HealthCheckRequest> requests)  {
+        return null;
+    }
+    
+    /**
+     * <pre>
+     *  bidi streaming method
+     * </pre>
+     */
+    default io.reactivex.Flowable<io.grpc.health.v1.HealthCheckResponse> watch2(io.reactivex.Flowable<io.grpc.health.v1.HealthCheckRequest> requests)  {
+        return null;
+    }
+}
+```
+As can be seen above, the generated interface class has a method corresponding to each type of [grpc](https://grpc.io/) method type:  unary (call-return), server-streaming, client-streaming, and bi-directional streaming.
 
-This plugin and the grpc-java plugin are plugins for [Google's Protocol Buffers](https://developers.google.com/protocol-buffers) protoc code generator.  When protoc is run with both this plugin and the grpc-java plugin the following 3 types of java classes are generated:
+This service interface can then be used for exposing [OSGi Remote Services](https://docs.osgi.org/specification/osgi.cmpn/7.0.0/service.remoteservices.html) in [OSGi](https://www.osgi.org) environments, since all OSGi Services are based upon the service interface class.  [ECF has an implementation](https://wiki.eclipse.org/OSGi_Remote_Services_and_ECF) of a [OSGi Remote Services Distribution Provider](https://github.com/ECF/grpc-RemoteServicesProvider) that exports and imports (along with discovery) of such grpc-based services using the OSGi Remote Service Admin specification.
 
-1 classes representing protobuf messages and options -- via protoc 
-1 classes providing access to grpc-based services -- via grcp-java plugin
-1 classes providing support for using OSGi Services -- via this plugin 
+The end effect of this generation is that starting with a proto service declaration such as HealthCheck above that
 
-This plugin is responsible for generating a service interface: a java interface that provides a contract for consumers to interact with the service as per [OSGi Services](https://www.osgi.org/developer/architecture/).
+# This protoc plugin run alongside the grpc plugin and the reactive-grpc plugin will produce
+
+1 Classes representing the protobuf messages and options -- via protocol buffers compiler
+1 Classes providing access to grpc-based unary service methods -- via grpc-java plugin that is part of [grpc](https://github.com/grpc/)
+1 Classes providing access to reactive-grpc APIs for streaming service methods (server, client, bidirectional) - via [reactive-grpc](https://github.com/salesforce/reactive-grpc)
+1 A service interface class (e.g. HealthCheckService class above) that references the message types and the reactive Flowable and Single classes (see streaming HealthCheckService methods above).
+
 
 ## What running protoc + grpc-osgi-generator plugin + [grpc-java](https://github.com/grpc/grpc-java) plugin does
 
