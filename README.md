@@ -83,6 +83,7 @@ For example, with these pom.xml properties
 	<reactive.grpc.version>1.0.0</reactive.grpc.version>
 	<grpc.contrib.version>0.8.0</grpc.contrib.version>
 	<grpc.version>1.23.0</grpc.version>
+	<grpc-osgi-generator.version>1.2.0-SNAPSHOT</grpc-osgi-generator>
 </properties>
 ```
 
@@ -163,17 +164,17 @@ the following extension with 3 plugins should be in your build section (along wi
 									<id>grpc-osgi-generator</id>
 									<groupId>org.eclipse.ecf</groupId>
 									<artifactId>grpc-osgi-generator</artifactId>
-									<version>1.2.0-SNAPSHOT</version>
+									<version>${grpc-osgi-generator.version}</version>
 									<mainClass>org.eclipse.ecf.grpc.osgigenerator.OSGiGenerator
 									</mainClass>
 								</protocPlugin>
-                                <protocPlugin>
-                                    <id>rxgrpc</id>
-                                    <groupId>com.salesforce.servicelibs</groupId>
-                                    <artifactId>rxgrpc</artifactId>
-                                    <version>${reactive.grpc.version}</version>
-                                    <mainClass>com.salesforce.rxgrpc.RxGrpcGenerator</mainClass>
-                                </protocPlugin>
+                                				<protocPlugin>
+                                    					<id>rxgrpc</id>
+                                    					<groupId>com.salesforce.servicelibs</groupId>
+                                    					<artifactId>rxgrpc</artifactId>
+                                    					<version>${reactive.grpc.version}</version>
+                                    					<mainClass>com.salesforce.rxgrpc.RxGrpcGenerator</mainClass>
+                                				</protocPlugin>
 							</protocPlugins>
 						</configuration>
 					</execution>
