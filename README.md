@@ -26,7 +26,6 @@ value = "by OSGi Remote Services generator",
 comments = "Source: health.proto")
 public interface HealthCheckService {
 
-    
     default io.grpc.health.v1.HealthCheckResponse check(io.grpc.health.v1.HealthCheckRequest request) {
         return null;
     }
@@ -36,7 +35,7 @@ public interface HealthCheckService {
      *  Server streaming method
      * </pre>
      */
-    default io.reactivex.Flowable<io.grpc.health.v1.HealthCheckResponse> watch(io.reactivex.Single<io.grpc.health.v1.HealthCheckRequest> request)  {
+    default io.reactivex.Flowable<io.grpc.health.v1.HealthCheckResponse> watchServer(io.reactivex.Single<io.grpc.health.v1.HealthCheckRequest> request)  {
         return null;
     }
     
@@ -45,7 +44,7 @@ public interface HealthCheckService {
      *  Client streaming method
      * </pre>
      */
-    default io.reactivex.Single<io.grpc.health.v1.HealthCheckResponse> watch1(io.reactivex.Flowable<io.grpc.health.v1.HealthCheckRequest> requests)  {
+    default io.reactivex.Single<io.grpc.health.v1.HealthCheckResponse> watchClient(io.reactivex.Flowable<io.grpc.health.v1.HealthCheckRequest> requests)  {
         return null;
     }
     
@@ -54,7 +53,7 @@ public interface HealthCheckService {
      *  bidi streaming method
      * </pre>
      */
-    default io.reactivex.Flowable<io.grpc.health.v1.HealthCheckResponse> watch2(io.reactivex.Flowable<io.grpc.health.v1.HealthCheckRequest> requests)  {
+    default io.reactivex.Flowable<io.grpc.health.v1.HealthCheckResponse> watchBidi(io.reactivex.Flowable<io.grpc.health.v1.HealthCheckRequest> requests)  {
         return null;
     }
 }
