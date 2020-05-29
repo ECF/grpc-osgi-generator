@@ -1,5 +1,27 @@
 # grpc-osgi-generator
-This project implements a protoc plugin to enhance the behavior of the [grpc-java](https://github.com/grpc/grpc-java) compiler.  Both this plugin and the grpc-java plugin are plugins for [Google's Protocol Buffers](https://developers.google.com/protocol-buffers) protoc code generator.  When protoc is run with both this plugin and the grpc-java plugin the following 3 types of java classes are generated:
+This project implements a protoc plugin to generate a Java service interface class and supporting classes.
+
+For example, consider the HealthCheck service declaration in the following proto file snippet:
+
+```proto
+
+service HealthCheck {
+  // Unary method
+  rpc Check(HealthCheckRequest) returns (HealthCheckResponse);
+  // Server streaming method
+  rpc Watch(HealthCheckRequest) returns (stream HealthCheckResponse);
+  // Client streaming method
+  rpc Watch1(stream HealthCheckRequest) returns (HealthCheckResponse);
+  // bidi streaming method
+  rpc Watch2(stream HealthCheckRequest) returns (stream HealthCheckResponse);
+}
+```
+
+The plugin depends upon two other protoc plugins
+
+
+
+This plugin and the grpc-java plugin are plugins for [Google's Protocol Buffers](https://developers.google.com/protocol-buffers) protoc code generator.  When protoc is run with both this plugin and the grpc-java plugin the following 3 types of java classes are generated:
 
 1 classes representing protobuf messages and options -- via protoc 
 1 classes providing access to grpc-based services -- via grcp-java plugin
