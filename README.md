@@ -60,6 +60,8 @@ public interface HealthCheckService {
 ```
 As can be seen above, this interface class has a method corresponding to each type of [grpc](https://grpc.io/) method type:  unary, server-streaming, client-streaming, and bi-directional streaming.  The streaming methods use the Reactive Java types (Flowable and Single) in the service interface.
 
+Note that the generated service interface uses the 'default' feature provided by Java8 or higher, and so depends upon using Java8 or higher target Java environment.
+
 This service interface can then be used for exposing [OSGi Remote Services](https://docs.osgi.org/specification/osgi.cmpn/7.0.0/service.remoteservices.html) in [OSGi](https://www.osgi.org) environments, since all OSGi Services are based upon the service interface class.  [ECF has an implementation](https://wiki.eclipse.org/OSGi_Remote_Services_and_ECF) of a [OSGi Remote Services Distribution Provider](https://github.com/ECF/grpc-RemoteServicesProvider) that exports and imports (along with discovery) of such grpc-based services using the [OSGi Remote Service Admin](https://docs.osgi.org/specification/osgi.cmpn/7.0.0/service.remoteserviceadmin.html) specification.
 
 The net effect of running protoc with these three protoc plugins is that the following java classes will be produced
