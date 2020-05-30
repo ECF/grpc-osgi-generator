@@ -61,7 +61,7 @@ public interface HealthCheckService {
     }
 }
 ```
-As can be seen above, this interface class has a method corresponding to each type of [grpc](https://grpc.io/) method type: unary, server-streaming, client-streaming, and bi-directional streaming.  The streaming methods use the Reactive Java types (Flowable and Single) in the service interface.
+As can be seen above, this interface class has a method corresponding to each type of [grpc](https://grpc.io/) method type: unary, server-streaming, client-streaming, and bi-directional streaming.  The streaming methods use the Reactive Java types (Flowable and Single) in the service interface as method arguments and return value types.
 
 Note that the generated service interface uses the 'default' keyword provided by Java8 compiler, and so depends upon using Java8 (or higher) target Java runtime environment.
 
