@@ -22,13 +22,14 @@ If [protoc](https://developers.google.com/protocol-buffers) is run with this pro
 package io.grpc.health.v1;
 
 import io.reactivex.Flowable;
+import io.reactivex.Single;
 
 @javax.annotation.Generated(
-value = "by OSGi Remote Services generator",
-comments = "Source: health.proto")
+value = "by grpc-osgi-generator - A protoc plugin for ECF's grpc remote services distribution provider at https://github.com/ECF/grpc-RemoteServiceSProvider ",
+comments = "Source: health.proto.  ")
 public interface HealthCheckService {
-
-    default io.grpc.health.v1.HealthCheckResponse check(io.grpc.health.v1.HealthCheckRequest request) {
+    
+    default Single<io.grpc.health.v1.HealthCheckResponse> check(Single<io.grpc.health.v1.HealthCheckRequest> requests)  {
         return null;
     }
     
@@ -37,7 +38,7 @@ public interface HealthCheckService {
      *  Server streaming method
      * </pre>
      */
-    default Flowable<io.grpc.health.v1.HealthCheckResponse> watchServer(io.grpc.health.v1.HealthCheckRequest request)  {
+    default Flowable<io.grpc.health.v1.HealthCheckResponse> watchServer(Single<io.grpc.health.v1.HealthCheckRequest> requests)  {
         return null;
     }
     
@@ -46,7 +47,7 @@ public interface HealthCheckService {
      *  Client streaming method
      * </pre>
      */
-    default io.grpc.health.v1.HealthCheckResponse watchClient(Flowable<io.grpc.health.v1.HealthCheckRequest> requests)  {
+    default Single<io.grpc.health.v1.HealthCheckResponse> watchClient(Flowable<io.grpc.health.v1.HealthCheckRequest> requests)  {
         return null;
     }
     
@@ -91,7 +92,6 @@ For example, with these pom.xml properties
 	<grpc-osgi-generator.version>1.2.0-SNAPSHOT</grpc-osgi-generator>
 </properties>
 ```
-
 and these dependencies 
 
 ```xml
