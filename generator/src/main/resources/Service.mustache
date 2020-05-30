@@ -7,8 +7,8 @@ import {{importClass}};
 {{/importClassNames}}
 
 @javax.annotation.Generated(
-value = "by OSGi Remote Services generator",
-comments = "Source: {{protoName}}")
+value = "by grpc-osgi-generator - A protoc plugin for ECF's grpc remote services distribution provider at https://github.com/ECF/grpc-RemoteServiceSProvider ",
+comments = "Source: {{protoName}}.  ")
 {{#javaDoc}}
 {{{javaDoc}}}
 {{/javaDoc}}
@@ -19,7 +19,7 @@ public interface {{className}} {
     {{#javaDoc}}
     {{{javaDoc}}}
     {{/javaDoc}}
-    default {{outputType}} {{methodNameCamelCase}}({{inputType}} request) {
+    default {{outputType}}<{{outputGenericType}}> {{methodNameCamelCase}}({{inputType}}<{{inputGenericType}}> requests)  {
         {{defaultBody}};
     }
     {{/unaryRequestMethods}}
@@ -28,7 +28,7 @@ public interface {{className}} {
     {{#javaDoc}}
     {{{javaDoc}}}
     {{/javaDoc}}
-    default {{outputType}}<{{outputGenericType}}> {{methodNameCamelCase}}({{inputType}}<{{inputGenericType}}> request)  {
+    default {{outputType}}<{{outputGenericType}}> {{methodNameCamelCase}}({{inputType}}<{{inputGenericType}}> requests)  {
         {{defaultBody}};
     }
     {{/serverStreamingRequestMethods}}

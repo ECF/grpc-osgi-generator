@@ -42,11 +42,11 @@ public class OSGiGenerator extends Generator {
 	private static final String REACTIVE_PACKAGE = String.join(".", "io", "reactivex");
 	private static final String FLOWABLE_CLASS = "Flowable";
 	private static final String FQ_FLOWABLE_CLASS = String.join(".", REACTIVE_PACKAGE, FLOWABLE_CLASS);
-
 	private static final String SINGLE_CLASS = "Single";
 	private static final String FQ_SINGLE_CLASS = String.join(".", REACTIVE_PACKAGE, SINGLE_CLASS);
 	
 	private static final String DEFAULT_BODY_NULL_RETURN = "return null";
+	
 	public static void main(String[] args) throws Exception {
 		if (args.length == 0) {
 			ProtocPlugin.generate(new OSGiGenerator());
@@ -72,8 +72,6 @@ public class OSGiGenerator extends Generator {
 				serviceContext.protoName = fileProto.getName();
 				serviceContext.packageName = extractPackageName(fileProto);
 				contexts.add(serviceContext);
-				// also add AbstractServiceImplContext
-				contexts.add(new AbstractServiceImplContext(serviceContext));
 			}
 		});
 
@@ -122,6 +120,10 @@ public class OSGiGenerator extends Generator {
 		return serviceContext;
 	}
 
+	private void setImport(ServiceContext serviceContext, String importClass) {
+		serviceContext.imports.add(new Import(importClass));
+	}
+	
 	private MethodContext buildMethodContext(ServiceContext serviceContext, MethodDescriptorProto methodProto, ProtoTypeMap typeMap,
 			List<Location> locations, int methodNumber) {
 
@@ -134,28 +136,13 @@ public class OSGiGenerator extends Generator {
 		String baseOutputType = typeMap.toJavaTypeName(methodProto.getOutputType());
 		methodContext.defaultBody = DEFAULT_BODY_NULL_RETURN;
 
-		// Handle possibilities for streaming
-		if (methodContext.isManyOutput) {
-			methodContext.outputType = FQ_FLOWABLE_CLASS;
-			methodContext.outputGenericType = baseOutputType;
-			if (methodContext.isManyInput) {
-				methodContext.inputType = FQ_FLOWABLE_CLASS;
-				methodContext.inputGenericType = baseInputType;
-			} else {
-				methodContext.inputType = FQ_SINGLE_CLASS;
-				methodContext.inputGenericType = baseInputType;
-			}
-		} else {
-			if (methodContext.isManyInput) {
-				methodContext.inputType = FQ_FLOWABLE_CLASS;
-				methodContext.inputGenericType = baseInputType;
-				methodContext.outputType = FQ_SINGLE_CLASS;
-				methodContext.outputGenericType = baseOutputType;
-			} else {
-				methodContext.inputType = baseInputType;
-				methodContext.outputType = baseOutputType;
-			}
-		}
+		setImport(serviceContext, FQ_FLOWABLE_CLASS);
+		setImport(serviceContext, FQ_SINGLE_CLASS);
+
+		methodContext.inputType = methodContext.isManyInput?FLOWABLE_CLASS:SINGLE_CLASS;
+		methodContext.inputGenericType = baseInputType;
+		methodContext.outputType = methodContext.isManyOutput?FLOWABLE_CLASS:SINGLE_CLASS;
+		methodContext.outputGenericType = baseOutputType;
 		methodContext.deprecated = methodProto.getOptions() != null && methodProto.getOptions().getDeprecated();
 		Location methodLocation = locations.stream()
 				.filter(location -> location.getPathCount() == METHOD_NUMBER_OF_PATHS
@@ -183,11 +170,8 @@ public class OSGiGenerator extends Generator {
 	}
 
 	private PluginProtos.CodeGeneratorResponse.File buildFile(ServiceContext context) {
-		String content = applyTemplate(
-				(context instanceof AbstractServiceImplContext) ? "AbstractServiceImpl.mustache" : "Service.mustache",
-				context);
 		return PluginProtos.CodeGeneratorResponse.File.newBuilder().setName(absoluteFileName(context))
-				.setContent(content).build();
+				.setContent(applyTemplate("Service.mustache", context)).build();
 	}
 
 	private String absoluteFileName(ServiceContext ctx) {
@@ -236,11 +220,15 @@ public class OSGiGenerator extends Generator {
 		public List<Import> imports = new ArrayList<Import>();
 		// CHECKSTYLE DISABLE VisibilityModifier FOR 8 LINES
 		public String fileName;
+		@SuppressWarnings("unused")
 		public String protoName;
 		public String packageName;
 		public String className;
+		@SuppressWarnings("unused")
 		public String serviceName;
+		@SuppressWarnings("unused")
 		public boolean deprecated;
+		@SuppressWarnings("unused")
 		public String javaDoc;
 		public List<MethodContext> methods = new ArrayList<>();
 
@@ -267,24 +255,6 @@ public class OSGiGenerator extends Generator {
 		@SuppressWarnings("unused")
 		public List<Import> importClassNames() {
 			return imports.stream().filter(distinctByKey(i -> i.importClass)).collect(Collectors.toList());
-		}
-	}
-
-	private class AbstractServiceImplContext extends ServiceContext {
-
-		@SuppressWarnings("unused")
-		public String originalClassName;
-
-		public AbstractServiceImplContext(ServiceContext svc) {
-			this.protoName = svc.protoName;
-			this.packageName = svc.packageName;
-			this.serviceName = svc.serviceName;
-			this.deprecated = svc.deprecated;
-			this.javaDoc = svc.javaDoc;
-			this.methods = new ArrayList<MethodContext>(svc.methods);
-			this.className = "Abstract" + svc.className + "Impl";
-			this.fileName = this.className + JAVA_EXTENSION;
-			this.originalClassName = svc.className;
 		}
 	}
 
