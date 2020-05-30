@@ -9,11 +9,11 @@ service HealthCheck {
   // Unary method
   rpc Check(HealthCheckRequest) returns (HealthCheckResponse);
   // Server streaming method
-  rpc Watch(HealthCheckRequest) returns (stream HealthCheckResponse);
+  rpc WatchServer(HealthCheckRequest) returns (stream HealthCheckResponse);
   // Client streaming method
-  rpc Watch1(stream HealthCheckRequest) returns (HealthCheckResponse);
+  rpc WatchClient(stream HealthCheckRequest) returns (HealthCheckResponse);
   // bidi streaming method
-  rpc Watch2(stream HealthCheckRequest) returns (stream HealthCheckResponse);
+  rpc WatchBidi(stream HealthCheckRequest) returns (stream HealthCheckResponse);
 }
 ```
 If [protoc](https://developers.google.com/protocol-buffers) is run with this proto file as input, along with the [grpc-java](https://github.com/grpc/grpc-java) and [reactive-grpc plugin](https://github.com/salesforce/reactive-grpc), along with this grpc-osgi-generator plugin, will generate the following service interface
