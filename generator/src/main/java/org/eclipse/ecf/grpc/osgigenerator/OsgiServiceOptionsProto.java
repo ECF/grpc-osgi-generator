@@ -7,7 +7,8 @@ public final class OsgiServiceOptionsProto {
   private OsgiServiceOptionsProto() {}
   public static void registerAllExtensions(
       com.google.protobuf.ExtensionRegistryLite registry) {
-    registry.add(org.eclipse.ecf.grpc.osgigenerator.OsgiServiceOptionsProto.interfaceTypes);
+    registry.add(org.eclipse.ecf.grpc.osgigenerator.OsgiServiceOptionsProto.generationType);
+    registry.add(org.eclipse.ecf.grpc.osgigenerator.OsgiServiceOptionsProto.version);
   }
 
   public static void registerAllExtensions(
@@ -15,16 +16,27 @@ public final class OsgiServiceOptionsProto {
     registerAllExtensions(
         (com.google.protobuf.ExtensionRegistryLite) registry);
   }
-  public static final int INTERFACE_TYPES_FIELD_NUMBER = 88888;
+  public static final int GENERATION_TYPE_FIELD_NUMBER = 81878;
   /**
    * <code>extend .google.protobuf.ServiceOptions { ... }</code>
    */
   public static final
     com.google.protobuf.GeneratedMessage.GeneratedExtension<
       com.google.protobuf.DescriptorProtos.ServiceOptions,
-      org.eclipse.ecf.grpc.osgigenerator.MethodTypes> interfaceTypes = com.google.protobuf.GeneratedMessage
+      org.eclipse.ecf.grpc.osgigenerator.GenerationType> generationType = com.google.protobuf.GeneratedMessage
           .newFileScopedGeneratedExtension(
-        org.eclipse.ecf.grpc.osgigenerator.MethodTypes.class,
+        org.eclipse.ecf.grpc.osgigenerator.GenerationType.class,
+        null);
+  public static final int VERSION_FIELD_NUMBER = 81879;
+  /**
+   * <code>extend .google.protobuf.ServiceOptions { ... }</code>
+   */
+  public static final
+    com.google.protobuf.GeneratedMessage.GeneratedExtension<
+      com.google.protobuf.DescriptorProtos.ServiceOptions,
+      java.lang.String> version = com.google.protobuf.GeneratedMessage
+          .newFileScopedGeneratedExtension(
+        java.lang.String.class,
         null);
 
   public static com.google.protobuf.Descriptors.FileDescriptor
@@ -36,19 +48,21 @@ public final class OsgiServiceOptionsProto {
   static {
     java.lang.String[] descriptorData = {
       "\n\roptions.proto\032 google/protobuf/descrip" +
-      "tor.proto*,\n\013MethodTypes\022\r\n\tREACTIVEX\020\000\022" +
-      "\016\n\nGRPC_UNARY\020\001:H\n\017interface_types\022\037.goo" +
-      "gle.protobuf.ServiceOptions\030\270\266\005 \001(\0162\014.Me" +
-      "thodTypesB?\n\"org.eclipse.ecf.grpc.osgige" +
-      "neratorB\027OsgiServiceOptionsProtoP\001b\006prot" +
-      "o3"
+      "tor.proto*/\n\016GenerationType\022\r\n\tREACTIVEX" +
+      "\020\000\022\016\n\nGRPC_UNARY\020\001:K\n\017generation_type\022\037." +
+      "google.protobuf.ServiceOptions\030\326\377\004 \001(\0162\017" +
+      ".GenerationType:2\n\007version\022\037.google.prot" +
+      "obuf.ServiceOptions\030\327\377\004 \001(\tB?\n\"org.eclip" +
+      "se.ecf.grpc.osgigeneratorB\027OsgiServiceOp" +
+      "tionsProtoP\001b\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
           com.google.protobuf.DescriptorProtos.getDescriptor(),
         });
-    interfaceTypes.internalInit(descriptor.getExtensions().get(0));
+    generationType.internalInit(descriptor.getExtensions().get(0));
+    version.internalInit(descriptor.getExtensions().get(1));
     com.google.protobuf.DescriptorProtos.getDescriptor();
   }
 

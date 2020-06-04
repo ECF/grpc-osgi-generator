@@ -6,12 +6,13 @@ option java_multiple_files = true;
 option java_outer_classname = "OsgiServiceOptionsProto";
 option java_package = "org.eclipse.ecf.grpc.osgigenerator";
 
-enum MethodTypes {
+enum GenerationType {
     REACTIVEX = 0;
     GRPC_UNARY = 1;
 }
 
 extend google.protobuf.ServiceOptions {
-    MethodTypes interface_types = 88888;
+    GenerationType generation_type = 81878;
+    string version = 81879;
 }
 

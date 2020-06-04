@@ -4,9 +4,9 @@
 package org.eclipse.ecf.grpc.osgigenerator;
 
 /**
- * Protobuf enum {@code MethodTypes}
+ * Protobuf enum {@code GenerationType}
  */
-public enum MethodTypes
+public enum GenerationType
     implements com.google.protobuf.ProtocolMessageEnum {
   /**
    * <code>REACTIVEX = 0;</code>
@@ -41,11 +41,11 @@ public enum MethodTypes
    * @deprecated Use {@link #forNumber(int)} instead.
    */
   @java.lang.Deprecated
-  public static MethodTypes valueOf(int value) {
+  public static GenerationType valueOf(int value) {
     return forNumber(value);
   }
 
-  public static MethodTypes forNumber(int value) {
+  public static GenerationType forNumber(int value) {
     switch (value) {
       case 0: return REACTIVEX;
       case 1: return GRPC_UNARY;
@@ -53,15 +53,15 @@ public enum MethodTypes
     }
   }
 
-  public static com.google.protobuf.Internal.EnumLiteMap<MethodTypes>
+  public static com.google.protobuf.Internal.EnumLiteMap<GenerationType>
       internalGetValueMap() {
     return internalValueMap;
   }
   private static final com.google.protobuf.Internal.EnumLiteMap<
-      MethodTypes> internalValueMap =
-        new com.google.protobuf.Internal.EnumLiteMap<MethodTypes>() {
-          public MethodTypes findValueByNumber(int number) {
-            return MethodTypes.forNumber(number);
+      GenerationType> internalValueMap =
+        new com.google.protobuf.Internal.EnumLiteMap<GenerationType>() {
+          public GenerationType findValueByNumber(int number) {
+            return GenerationType.forNumber(number);
           }
         };
 
@@ -78,9 +78,9 @@ public enum MethodTypes
     return org.eclipse.ecf.grpc.osgigenerator.OsgiServiceOptionsProto.getDescriptor().getEnumTypes().get(0);
   }
 
-  private static final MethodTypes[] VALUES = values();
+  private static final GenerationType[] VALUES = values();
 
-  public static MethodTypes valueOf(
+  public static GenerationType valueOf(
       com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
     if (desc.getType() != getDescriptor()) {
       throw new java.lang.IllegalArgumentException(
@@ -94,10 +94,10 @@ public enum MethodTypes
 
   private final int value;
 
-  private MethodTypes(int value) {
+  private GenerationType(int value) {
     this.value = value;
   }
 
-  // @@protoc_insertion_point(enum_scope:MethodTypes)
+  // @@protoc_insertion_point(enum_scope:GenerationType)
 }
 
