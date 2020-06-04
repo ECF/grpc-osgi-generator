@@ -1,0 +1,26 @@
+{{#packageName}}
+package {{packageName}};
+{{/packageName}}
+
+{{#importClassNames}}
+import {{importClass}};
+{{/importClassNames}}
+
+@javax.annotation.Generated(
+value = "by grpc-osgi-generator (GRPC_UNARY) - protoc plugin for generating service interface class ",
+comments = "Source: {{protoName}}.  ")
+{{#javaDoc}}
+{{{javaDoc}}}
+{{/javaDoc}}
+public interface {{className}} {
+
+    {{#unaryRequestMethods}}
+    
+    {{#javaDoc}}
+    {{{javaDoc}}}
+    {{/javaDoc}}
+    default {{outputGenericType}} {{methodNameCamelCase}}({{inputGenericType}} request)  {
+        {{defaultBody}};
+    }
+    {{/unaryRequestMethods}}
+}

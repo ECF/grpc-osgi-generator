@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+import "google/protobuf/descriptor.proto";
+
+enum MethodTypes {
+    REACTIVEX = 0;
+    GRPC_UNARY = 1;
+}
+
+extend google.protobuf.ServiceOptions {
+    MethodTypes interface_types = 88888;
+}
+

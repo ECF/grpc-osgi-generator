@@ -24,6 +24,7 @@ import com.google.protobuf.DescriptorProtos.FileOptions;
 import com.google.protobuf.DescriptorProtos.MethodDescriptorProto;
 import com.google.protobuf.DescriptorProtos.ServiceDescriptorProto;
 import com.google.protobuf.DescriptorProtos.SourceCodeInfo.Location;
+import com.google.protobuf.GeneratedMessage.GeneratedExtension;
 import com.google.protobuf.compiler.PluginProtos;
 import com.google.protobuf.compiler.PluginProtos.CodeGeneratorRequest;
 import com.google.protobuf.compiler.PluginProtos.CodeGeneratorResponse.File;
@@ -48,10 +49,15 @@ public class OSGiGenerator extends Generator {
 	private static final String DEFAULT_BODY_NULL_RETURN = "return null";
 	
 	public static void main(String[] args) throws Exception {
+		List<Generator> generators = new ArrayList<Generator>();
+		generators.add(new OSGiGenerator());
+		@SuppressWarnings("rawtypes")
+		List<GeneratedExtension> extensions = new ArrayList<GeneratedExtension>();
+		extensions.add(OsgiServiceOptionsProto.interfaceTypes);
 		if (args.length == 0) {
-			ProtocPlugin.generate(new OSGiGenerator());
+			ProtocPlugin.generate(generators, extensions);
 		} else {
-			ProtocPlugin.debug(new OSGiGenerator(), args[0]);
+			ProtocPlugin.debug(generators, extensions, args[0]);
 		}
 	}
 
@@ -94,6 +100,7 @@ public class OSGiGenerator extends Generator {
 			List<Location> locations, int serviceNumber) {
 		String serviceName = serviceProto.getName();
 		ServiceContext serviceContext = new ServiceContext();
+		serviceContext.methodTypes = serviceProto.getOptions().getExtension(OsgiServiceOptionsProto.interfaceTypes);
 		serviceContext.className = serviceName + SERVICE_CLASS_SUFFIX;
 		serviceContext.fileName = serviceContext.className + JAVA_EXTENSION;
 		serviceContext.serviceName = serviceName;
@@ -171,7 +178,7 @@ public class OSGiGenerator extends Generator {
 
 	private PluginProtos.CodeGeneratorResponse.File buildFile(ServiceContext context) {
 		return PluginProtos.CodeGeneratorResponse.File.newBuilder().setName(absoluteFileName(context))
-				.setContent(applyTemplate("Service.mustache", context)).build();
+				.setContent(applyTemplate(context.methodTypes == MethodTypes.GRPC_UNARY?"GrpcService.mustache":"ReactiveXService.mustache", context)).build();
 	}
 
 	private String absoluteFileName(ServiceContext ctx) {
@@ -217,6 +224,7 @@ public class OSGiGenerator extends Generator {
 	 * Template class for proto Service objects.
 	 */
 	private class ServiceContext {
+		public MethodTypes methodTypes;
 		public List<Import> imports = new ArrayList<Import>();
 		// CHECKSTYLE DISABLE VisibilityModifier FOR 8 LINES
 		public String fileName;
