@@ -89,7 +89,7 @@ For example, with these pom.xml properties to define the appropriate versions
 	<reactive.grpc.version>1.0.0</reactive.grpc.version>
 	<grpc.contrib.version>0.8.0</grpc.contrib.version>
 	<grpc.version>1.23.0</grpc.version>
-	<grpc-osgi-generator.version>1.2.0-SNAPSHOT</grpc-osgi-generator>
+	<grpc.osgi.generator.version>1.2.3</grpc.osgi.generator.version>
 </properties>
 ```
 and these pom dependencies 
@@ -169,7 +169,7 @@ the following extension and the protobuf-maven-plugin...along with metadata for 
 									<id>grpc-osgi-generator</id>
 									<groupId>org.eclipse.ecf</groupId>
 									<artifactId>grpc-osgi-generator</artifactId>
-									<version>${grpc-osgi-generator.version}</version>
+									<version>${grpc.osgi.generator.version}</version>
 									<mainClass>org.eclipse.ecf.grpc.osgigenerator.OSGiGenerator
 									</mainClass>
 								</protocPlugin>
