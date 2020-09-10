@@ -128,14 +128,4 @@
 		</plugins>
 	</build>
 
-	<profiles>
-		<profile>
-			<id>public-release</id>
-			<build>
-				<plugins>
-
-				</plugins>
-			</build>
-		</profile>
-	</profiles>
 </project>
