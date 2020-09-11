@@ -3,11 +3,11 @@
   <parent>
     <artifactId>grpc-osgi-generator.parent</artifactId>
     <groupId>org.eclipse.ecf</groupId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.0.0</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
   <artifactId>grpc-osgi-generator</artifactId>
-  <version>1.5.4</version>
+  <version>1.5.5</version>
   <build>
     <extensions>
       <extension>
