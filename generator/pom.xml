@@ -13,7 +13,7 @@
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
-	<version>1.5.6</version>
+	<version>1.5.9</version>
 
 	<artifactId>grpc-osgi-generator</artifactId>
 

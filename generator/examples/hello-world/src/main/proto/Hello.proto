@@ -20,6 +20,17 @@ service Greeter {
 }
 
 /*
+ * Define the service's operations
+ */
+service Greeter1 {
+    option (generation_type) = GRPC_UNARY;
+    /*
+     * Greet1
+     */
+    rpc Greet1 (HelloRequest) returns (HelloResponse) {}
+}
+
+/*
  * Define the service's data structures
  */
 message HelloRequest {

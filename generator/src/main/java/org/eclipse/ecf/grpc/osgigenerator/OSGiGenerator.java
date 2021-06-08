@@ -47,7 +47,7 @@ public class OSGiGenerator extends Generator {
 	private static final String FQ_SINGLE_CLASS = String.join(".", REACTIVE_PACKAGE, SINGLE_CLASS);
 	
 	private static final String DEFAULT_BODY_NULL_RETURN = "return null";
-	
+
 	public static void main(String[] args) throws Exception {
 		List<Generator> generators = new ArrayList<Generator>();
 		generators.add(new OSGiGenerator());
@@ -118,8 +118,8 @@ public class OSGiGenerator extends Generator {
 		serviceContext.javaDoc = getJavaDoc(getComments(serviceLocation), getServiceJavaDocPrefix());
 
 		for (int methodNumber = 0; methodNumber < serviceProto.getMethodCount(); methodNumber++) {
-			MethodContext methodContext = buildMethodContext(serviceContext, serviceProto.getMethod(methodNumber), typeMap, locations,
-					methodNumber);
+			MethodContext methodContext = buildMethodContext(serviceContext, serviceProto.getMethod(methodNumber),
+					typeMap, allLocationsForService, methodNumber);
 			if (methodContext != null) {
 				serviceContext.methods.add(methodContext);
 			}
@@ -128,11 +128,12 @@ public class OSGiGenerator extends Generator {
 	}
 
 	private void setImport(ServiceContext serviceContext, String importClass) {
-		serviceContext.imports.add(new Import(importClass));
+		if (!serviceContext.imports.stream().filter(i -> i.importClass.equals(importClass)).findAny().isPresent())
+			serviceContext.imports.add(new Import(importClass));
 	}
-	
-	private MethodContext buildMethodContext(ServiceContext serviceContext, MethodDescriptorProto methodProto, ProtoTypeMap typeMap,
-			List<Location> locations, int methodNumber) {
+
+	private MethodContext buildMethodContext(ServiceContext serviceContext, MethodDescriptorProto methodProto,
+			ProtoTypeMap typeMap, List<Location> locations, int methodNumber) {
 
 		MethodContext methodContext = new MethodContext();
 		methodContext.isManyInput = methodProto.getClientStreaming();
@@ -142,14 +143,25 @@ public class OSGiGenerator extends Generator {
 		String baseInputType = typeMap.toJavaTypeName(methodProto.getInputType());
 		String baseOutputType = typeMap.toJavaTypeName(methodProto.getOutputType());
 		methodContext.defaultBody = DEFAULT_BODY_NULL_RETURN;
-
-		setImport(serviceContext, FQ_FLOWABLE_CLASS);
-		setImport(serviceContext, FQ_SINGLE_CLASS);
-
-		methodContext.inputType = methodContext.isManyInput?FLOWABLE_CLASS:SINGLE_CLASS;
+		// Argument types
+		if (methodContext.isManyInput) {
+			setImport(serviceContext, FQ_FLOWABLE_CLASS);
+			methodContext.inputType = FLOWABLE_CLASS;
+		} else {
+			setImport(serviceContext, FQ_SINGLE_CLASS);
+			methodContext.inputType = SINGLE_CLASS;			
+		}
 		methodContext.inputGenericType = baseInputType;
-		methodContext.outputType = methodContext.isManyOutput?FLOWABLE_CLASS:SINGLE_CLASS;
+		// return types
+		if (methodContext.isManyOutput) {
+			setImport(serviceContext, FQ_FLOWABLE_CLASS);
+			methodContext.outputType = FLOWABLE_CLASS;
+		} else {
+			setImport(serviceContext, FQ_SINGLE_CLASS);
+			methodContext.outputType = SINGLE_CLASS;			
+		}
 		methodContext.outputGenericType = baseOutputType;
+
 		methodContext.deprecated = methodProto.getOptions() != null && methodProto.getOptions().getDeprecated();
 		Location methodLocation = locations.stream()
 				.filter(location -> location.getPathCount() == METHOD_NUMBER_OF_PATHS
@@ -159,7 +171,7 @@ public class OSGiGenerator extends Generator {
 
 		return methodContext;
 	}
-	
+
 	private String lowerCaseFirst(String s) {
 		return Character.toLowerCase(s.charAt(0)) + s.substring(1);
 	}
@@ -178,7 +190,9 @@ public class OSGiGenerator extends Generator {
 
 	private PluginProtos.CodeGeneratorResponse.File buildFile(ServiceContext context) {
 		return PluginProtos.CodeGeneratorResponse.File.newBuilder().setName(absoluteFileName(context))
-				.setContent(applyTemplate(context.methodTypes == GenerationType.GRPC_UNARY?"GrpcService.mustache":"ReactiveXService.mustache", context)).build();
+				.setContent(applyTemplate(context.methodTypes == GenerationType.GRPC_UNARY ? "GrpcService.mustache"
+						: "ReactiveXService.mustache", context))
+				.build();
 	}
 
 	private String absoluteFileName(ServiceContext ctx) {
@@ -206,20 +220,21 @@ public class OSGiGenerator extends Generator {
 		return null;
 	}
 
-    public static <T> Predicate<T> distinctByKey(Function<? super T, Object> keyExtractor) 
-    {
-        Map<Object, Boolean> map = new ConcurrentHashMap<>();
-        return t -> map.putIfAbsent(keyExtractor.apply(t), Boolean.TRUE) == null;
-    }
-    
+	public static <T> Predicate<T> distinctByKey(Function<? super T, Object> keyExtractor) {
+		Map<Object, Boolean> map = new ConcurrentHashMap<>();
+		return t -> map.putIfAbsent(keyExtractor.apply(t), Boolean.TRUE) == null;
+	}
+
 	private class Import {
 		@SuppressWarnings("unused")
 		public String importClass;
+
 		@SuppressWarnings("unused")
 		Import(String clazzName) {
 			this.importClass = clazzName;
 		}
 	}
+
 	/**
 	 * Template class for proto Service objects.
 	 */
@@ -259,7 +274,7 @@ public class OSGiGenerator extends Generator {
 		public List<MethodContext> bidiStreamingRequestMethods() {
 			return methods.stream().filter(m -> (m.isManyInput && m.isManyOutput)).collect(Collectors.toList());
 		}
-		
+
 		@SuppressWarnings("unused")
 		public List<Import> importClassNames() {
 			return imports.stream().filter(distinctByKey(i -> i.importClass)).collect(Collectors.toList());
@@ -308,7 +323,7 @@ public class OSGiGenerator extends Generator {
 			String mn = methodName.replace("_", "");
 			return String.valueOf(Character.toLowerCase(mn.charAt(0))) + mn.substring(1);
 		}
-		
+
 	}
 
 }
