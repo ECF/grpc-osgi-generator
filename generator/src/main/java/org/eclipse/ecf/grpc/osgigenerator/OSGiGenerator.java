@@ -41,11 +41,10 @@ public class OSGiGenerator extends Generator {
 	private static final int METHOD_NUMBER_OF_PATHS = 4;
 
 	private static final String REACTIVE_PACKAGE = String.join(".", "io", "reactivex");
+	private static final String REACTIVE3_PACKAGE = String.join(".", "io", "reactivex", "rxjava3", "core");
 	private static final String FLOWABLE_CLASS = "Flowable";
-	private static final String FQ_FLOWABLE_CLASS = String.join(".", REACTIVE_PACKAGE, FLOWABLE_CLASS);
 	private static final String SINGLE_CLASS = "Single";
-	private static final String FQ_SINGLE_CLASS = String.join(".", REACTIVE_PACKAGE, SINGLE_CLASS);
-	
+
 	private static final String DEFAULT_BODY_NULL_RETURN = "return null";
 
 	public static void main(String[] args) throws Exception {
@@ -54,6 +53,9 @@ public class OSGiGenerator extends Generator {
 		@SuppressWarnings("rawtypes")
 		List<GeneratedExtension> extensions = new ArrayList<GeneratedExtension>();
 		extensions.add(OsgiServiceOptionsProto.generationType);
+		extensions.add(OsgiServiceOptionsProto.interfaceMethodBodyType);
+		extensions.add(OsgiServiceOptionsProto.fileReactivexVersion);
+		extensions.add(OsgiServiceOptionsProto.serviceReactivexVersion);
 		if (args.length == 0) {
 			ProtocPlugin.generate(generators, extensions);
 		} else {
@@ -74,7 +76,8 @@ public class OSGiGenerator extends Generator {
 		protos.forEach(fileProto -> {
 			for (int serviceNumber = 0; serviceNumber < fileProto.getServiceCount(); serviceNumber++) {
 				ServiceContext serviceContext = buildServiceContext(fileProto.getService(serviceNumber), typeMap,
-						fileProto.getSourceCodeInfo().getLocationList(), serviceNumber);
+						fileProto.getSourceCodeInfo().getLocationList(), serviceNumber,
+						fileProto.getOptions().getExtension(OsgiServiceOptionsProto.fileReactivexVersion));
 				serviceContext.protoName = fileProto.getName();
 				serviceContext.packageName = extractPackageName(fileProto);
 				contexts.add(serviceContext);
@@ -97,7 +100,7 @@ public class OSGiGenerator extends Generator {
 	}
 
 	private ServiceContext buildServiceContext(ServiceDescriptorProto serviceProto, ProtoTypeMap typeMap,
-			List<Location> locations, int serviceNumber) {
+			List<Location> locations, int serviceNumber, ReactiveXVersion fileReactiveXVersion) {
 		String serviceName = serviceProto.getName();
 		ServiceContext serviceContext = new ServiceContext();
 		serviceContext.methodTypes = serviceProto.getOptions().getExtension(OsgiServiceOptionsProto.generationType);
@@ -117,9 +120,15 @@ public class OSGiGenerator extends Generator {
 				.orElseGet(Location::getDefaultInstance);
 		serviceContext.javaDoc = getJavaDoc(getComments(serviceLocation), getServiceJavaDocPrefix());
 
+		String servicePackage = REACTIVE_PACKAGE; // default to version 2 for now
+		if (fileReactiveXVersion == ReactiveXVersion.V_3 || serviceProto.getOptions()
+				.getExtension(OsgiServiceOptionsProto.serviceReactivexVersion) == ReactiveXVersion.V_3) {
+			servicePackage = REACTIVE3_PACKAGE;
+		}
+
 		for (int methodNumber = 0; methodNumber < serviceProto.getMethodCount(); methodNumber++) {
 			MethodContext methodContext = buildMethodContext(serviceContext, serviceProto.getMethod(methodNumber),
-					typeMap, allLocationsForService, methodNumber);
+					typeMap, allLocationsForService, methodNumber, servicePackage);
 			if (methodContext != null) {
 				serviceContext.methods.add(methodContext);
 			}
@@ -133,7 +142,7 @@ public class OSGiGenerator extends Generator {
 	}
 
 	private MethodContext buildMethodContext(ServiceContext serviceContext, MethodDescriptorProto methodProto,
-			ProtoTypeMap typeMap, List<Location> locations, int methodNumber) {
+			ProtoTypeMap typeMap, List<Location> locations, int methodNumber, String service_package) {
 
 		MethodContext methodContext = new MethodContext();
 		methodContext.isManyInput = methodProto.getClientStreaming();
@@ -142,23 +151,32 @@ public class OSGiGenerator extends Generator {
 		// Get base input and output types
 		String baseInputType = typeMap.toJavaTypeName(methodProto.getInputType());
 		String baseOutputType = typeMap.toJavaTypeName(methodProto.getOutputType());
-		methodContext.defaultBody = DEFAULT_BODY_NULL_RETURN;
+		// Get defaultBody if present in options and set defaultBody in methodContext
+		if (methodProto.getOptions()
+				.getExtension(OsgiServiceOptionsProto.interfaceMethodBodyType) == InterfaceMethodBodyType.THROW) {
+			methodContext.defaultBody = String.format(
+					"throw new UnsupportedOperationException(\"%s not implemented yet\")", methodContext.methodName);
+		} else {
+			methodContext.defaultBody = DEFAULT_BODY_NULL_RETURN;
+		}
+		String fq_flowable_class = String.join(".", service_package, FLOWABLE_CLASS);
+		String fq_single_class = String.join(".", service_package, SINGLE_CLASS);
 		// Argument types
 		if (methodContext.isManyInput) {
-			setImport(serviceContext, FQ_FLOWABLE_CLASS);
+			setImport(serviceContext, fq_flowable_class);
 			methodContext.inputType = FLOWABLE_CLASS;
 		} else {
-			setImport(serviceContext, FQ_SINGLE_CLASS);
-			methodContext.inputType = SINGLE_CLASS;			
+			setImport(serviceContext, fq_single_class);
+			methodContext.inputType = SINGLE_CLASS;
 		}
 		methodContext.inputGenericType = baseInputType;
 		// return types
 		if (methodContext.isManyOutput) {
-			setImport(serviceContext, FQ_FLOWABLE_CLASS);
+			setImport(serviceContext, fq_flowable_class);
 			methodContext.outputType = FLOWABLE_CLASS;
 		} else {
-			setImport(serviceContext, FQ_SINGLE_CLASS);
-			methodContext.outputType = SINGLE_CLASS;			
+			setImport(serviceContext, fq_single_class);
+			methodContext.outputType = SINGLE_CLASS;
 		}
 		methodContext.outputGenericType = baseOutputType;
 
@@ -226,10 +244,8 @@ public class OSGiGenerator extends Generator {
 	}
 
 	private class Import {
-		@SuppressWarnings("unused")
 		public String importClass;
 
-		@SuppressWarnings("unused")
 		Import(String clazzName) {
 			this.importClass = clazzName;
 		}

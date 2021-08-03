@@ -9,6 +9,9 @@ public final class OsgiServiceOptionsProto {
       com.google.protobuf.ExtensionRegistryLite registry) {
     registry.add(org.eclipse.ecf.grpc.osgigenerator.OsgiServiceOptionsProto.generationType);
     registry.add(org.eclipse.ecf.grpc.osgigenerator.OsgiServiceOptionsProto.version);
+    registry.add(org.eclipse.ecf.grpc.osgigenerator.OsgiServiceOptionsProto.serviceReactivexVersion);
+    registry.add(org.eclipse.ecf.grpc.osgigenerator.OsgiServiceOptionsProto.interfaceMethodBodyType);
+    registry.add(org.eclipse.ecf.grpc.osgigenerator.OsgiServiceOptionsProto.fileReactivexVersion);
   }
 
   public static void registerAllExtensions(
@@ -38,6 +41,39 @@ public final class OsgiServiceOptionsProto {
           .newFileScopedGeneratedExtension(
         java.lang.String.class,
         null);
+  public static final int SERVICE_REACTIVEX_VERSION_FIELD_NUMBER = 81880;
+  /**
+   * <code>extend .google.protobuf.ServiceOptions { ... }</code>
+   */
+  public static final
+    com.google.protobuf.GeneratedMessage.GeneratedExtension<
+      com.google.protobuf.DescriptorProtos.ServiceOptions,
+      org.eclipse.ecf.grpc.osgigenerator.ReactiveXVersion> serviceReactivexVersion = com.google.protobuf.GeneratedMessage
+          .newFileScopedGeneratedExtension(
+        org.eclipse.ecf.grpc.osgigenerator.ReactiveXVersion.class,
+        null);
+  public static final int INTERFACE_METHOD_BODY_TYPE_FIELD_NUMBER = 81878;
+  /**
+   * <code>extend .google.protobuf.MethodOptions { ... }</code>
+   */
+  public static final
+    com.google.protobuf.GeneratedMessage.GeneratedExtension<
+      com.google.protobuf.DescriptorProtos.MethodOptions,
+      org.eclipse.ecf.grpc.osgigenerator.InterfaceMethodBodyType> interfaceMethodBodyType = com.google.protobuf.GeneratedMessage
+          .newFileScopedGeneratedExtension(
+        org.eclipse.ecf.grpc.osgigenerator.InterfaceMethodBodyType.class,
+        null);
+  public static final int FILE_REACTIVEX_VERSION_FIELD_NUMBER = 81878;
+  /**
+   * <code>extend .google.protobuf.FileOptions { ... }</code>
+   */
+  public static final
+    com.google.protobuf.GeneratedMessage.GeneratedExtension<
+      com.google.protobuf.DescriptorProtos.FileOptions,
+      org.eclipse.ecf.grpc.osgigenerator.ReactiveXVersion> fileReactivexVersion = com.google.protobuf.GeneratedMessage
+          .newFileScopedGeneratedExtension(
+        org.eclipse.ecf.grpc.osgigenerator.ReactiveXVersion.class,
+        null);
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -49,12 +85,21 @@ public final class OsgiServiceOptionsProto {
     java.lang.String[] descriptorData = {
       "\n\roptions.proto\032 google/protobuf/descrip" +
       "tor.proto*/\n\016GenerationType\022\r\n\tREACTIVEX" +
-      "\020\000\022\016\n\nGRPC_UNARY\020\001:K\n\017generation_type\022\037." +
-      "google.protobuf.ServiceOptions\030\326\377\004 \001(\0162\017" +
-      ".GenerationType:2\n\007version\022\037.google.prot" +
-      "obuf.ServiceOptions\030\327\377\004 \001(\tB?\n\"org.eclip" +
-      "se.ecf.grpc.osgigeneratorB\027OsgiServiceOp" +
-      "tionsProtoP\001b\006proto3"
+      "\020\000\022\016\n\nGRPC_UNARY\020\001*0\n\027InterfaceMethodBod" +
+      "yType\022\n\n\006RETURN\020\000\022\t\n\005THROW\020\001*$\n\020Reactive" +
+      "XVersion\022\007\n\003V_2\020\000\022\007\n\003V_3\020\001:K\n\017generation" +
+      "_type\022\037.google.protobuf.ServiceOptions\030\326" +
+      "\377\004 \001(\0162\017.GenerationType:2\n\007version\022\037.goo" +
+      "gle.protobuf.ServiceOptions\030\327\377\004 \001(\t:W\n\031s" +
+      "ervice_reactivex_version\022\037.google.protob" +
+      "uf.ServiceOptions\030\330\377\004 \001(\0162\021.ReactiveXVer" +
+      "sion:^\n\032interface_method_body_type\022\036.goo" +
+      "gle.protobuf.MethodOptions\030\326\377\004 \001(\0162\030.Int" +
+      "erfaceMethodBodyType:Q\n\026file_reactivex_v" +
+      "ersion\022\034.google.protobuf.FileOptions\030\326\377\004" +
+      " \001(\0162\021.ReactiveXVersionB?\n\"org.eclipse.e" +
+      "cf.grpc.osgigeneratorB\027OsgiServiceOption" +
+      "sProtoP\001b\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -63,6 +108,9 @@ public final class OsgiServiceOptionsProto {
         });
     generationType.internalInit(descriptor.getExtensions().get(0));
     version.internalInit(descriptor.getExtensions().get(1));
+    serviceReactivexVersion.internalInit(descriptor.getExtensions().get(2));
+    interfaceMethodBodyType.internalInit(descriptor.getExtensions().get(3));
+    fileReactivexVersion.internalInit(descriptor.getExtensions().get(4));
     com.google.protobuf.DescriptorProtos.getDescriptor();
   }
 

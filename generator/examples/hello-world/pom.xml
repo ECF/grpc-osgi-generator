@@ -14,6 +14,7 @@
 		<protoc.version>3.15.4</protoc.version>
 		<jprotoc.version>1.0.1</jprotoc.version>
 		<rxjava.version>2.2.21</rxjava.version>
+		<rxjava3.version>3.0.13</rxjava3.version>
 	</properties>
 
 	<dependencies>
@@ -21,6 +22,11 @@
 			<groupId>io.reactivex.rxjava2</groupId>
 			<artifactId>rxjava</artifactId>
 			<version>${rxjava.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>io.reactivex.rxjava3</groupId>
+			<artifactId>rxjava</artifactId>
+			<version>${rxjava3.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>io.grpc</groupId>
@@ -96,7 +102,7 @@
 									<id>grpc-osgi-generator</id>
 									<groupId>org.eclipse.ecf</groupId>
 									<artifactId>grpc-osgi-generator</artifactId>
-									<version>1.5.6</version>
+									<version>1.6.0</version>
 									<mainClass>org.eclipse.ecf.grpc.osgigenerator.OSGiGenerator</mainClass>
 								</protocPlugin>
 								<protocPlugin> 

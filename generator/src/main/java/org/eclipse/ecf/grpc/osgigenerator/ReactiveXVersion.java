@@ -4,29 +4,29 @@
 package org.eclipse.ecf.grpc.osgigenerator;
 
 /**
- * Protobuf enum {@code GenerationType}
+ * Protobuf enum {@code ReactiveXVersion}
  */
-public enum GenerationType
+public enum ReactiveXVersion
     implements com.google.protobuf.ProtocolMessageEnum {
   /**
-   * <code>REACTIVEX = 0;</code>
+   * <code>V_2 = 0;</code>
    */
-  REACTIVEX(0),
+  V_2(0),
   /**
-   * <code>GRPC_UNARY = 1;</code>
+   * <code>V_3 = 1;</code>
    */
-  GRPC_UNARY(1),
+  V_3(1),
   UNRECOGNIZED(-1),
   ;
 
   /**
-   * <code>REACTIVEX = 0;</code>
+   * <code>V_2 = 0;</code>
    */
-  public static final int REACTIVEX_VALUE = 0;
+  public static final int V_2_VALUE = 0;
   /**
-   * <code>GRPC_UNARY = 1;</code>
+   * <code>V_3 = 1;</code>
    */
-  public static final int GRPC_UNARY_VALUE = 1;
+  public static final int V_3_VALUE = 1;
 
 
   public final int getNumber() {
@@ -43,7 +43,7 @@ public enum GenerationType
    * @deprecated Use {@link #forNumber(int)} instead.
    */
   @java.lang.Deprecated
-  public static GenerationType valueOf(int value) {
+  public static ReactiveXVersion valueOf(int value) {
     return forNumber(value);
   }
 
@@ -51,23 +51,23 @@ public enum GenerationType
    * @param value The numeric wire value of the corresponding enum entry.
    * @return The enum associated with the given numeric wire value.
    */
-  public static GenerationType forNumber(int value) {
+  public static ReactiveXVersion forNumber(int value) {
     switch (value) {
-      case 0: return REACTIVEX;
-      case 1: return GRPC_UNARY;
+      case 0: return V_2;
+      case 1: return V_3;
       default: return null;
     }
   }
 
-  public static com.google.protobuf.Internal.EnumLiteMap<GenerationType>
+  public static com.google.protobuf.Internal.EnumLiteMap<ReactiveXVersion>
       internalGetValueMap() {
     return internalValueMap;
   }
   private static final com.google.protobuf.Internal.EnumLiteMap<
-      GenerationType> internalValueMap =
-        new com.google.protobuf.Internal.EnumLiteMap<GenerationType>() {
-          public GenerationType findValueByNumber(int number) {
-            return GenerationType.forNumber(number);
+      ReactiveXVersion> internalValueMap =
+        new com.google.protobuf.Internal.EnumLiteMap<ReactiveXVersion>() {
+          public ReactiveXVersion findValueByNumber(int number) {
+            return ReactiveXVersion.forNumber(number);
           }
         };
 
@@ -85,12 +85,12 @@ public enum GenerationType
   }
   public static final com.google.protobuf.Descriptors.EnumDescriptor
       getDescriptor() {
-    return org.eclipse.ecf.grpc.osgigenerator.OsgiServiceOptionsProto.getDescriptor().getEnumTypes().get(0);
+    return org.eclipse.ecf.grpc.osgigenerator.OsgiServiceOptionsProto.getDescriptor().getEnumTypes().get(2);
   }
 
-  private static final GenerationType[] VALUES = values();
+  private static final ReactiveXVersion[] VALUES = values();
 
-  public static GenerationType valueOf(
+  public static ReactiveXVersion valueOf(
       com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
     if (desc.getType() != getDescriptor()) {
       throw new java.lang.IllegalArgumentException(
@@ -104,10 +104,10 @@ public enum GenerationType
 
   private final int value;
 
-  private GenerationType(int value) {
+  private ReactiveXVersion(int value) {
     this.value = value;
   }
 
-  // @@protoc_insertion_point(enum_scope:GenerationType)
+  // @@protoc_insertion_point(enum_scope:ReactiveXVersion)
 }
 

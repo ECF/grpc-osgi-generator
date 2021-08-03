@@ -23,11 +23,20 @@ service Greeter {
  * Define the service's operations
  */
 service Greeter1 {
-    option (generation_type) = GRPC_UNARY;
+    option (service_reactivex_version) = V_3;
     /*
      * Greet1
      */
     rpc Greet1 (HelloRequest) returns (HelloResponse) {}
+}
+
+service Greeter2 {
+    /*
+     * Greet1
+     */
+    rpc Greet2 (HelloRequest) returns (HelloResponse) {
+    	option (interface_method_body_type) = THROW;
+    }
 }
 
 /*

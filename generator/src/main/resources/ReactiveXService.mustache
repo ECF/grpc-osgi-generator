@@ -20,7 +20,7 @@ public interface {{className}} {
     {{{javaDoc}}}
     {{/javaDoc}}
     default {{outputType}}<{{outputGenericType}}> {{methodNameCamelCase}}({{inputType}}<{{inputGenericType}}> requests)  {
-        {{defaultBody}};
+        {{{defaultBody}}};
     }
     {{/unaryRequestMethods}}
     {{#serverStreamingRequestMethods}}
@@ -29,7 +29,7 @@ public interface {{className}} {
     {{{javaDoc}}}
     {{/javaDoc}}
     default {{outputType}}<{{outputGenericType}}> {{methodNameCamelCase}}({{inputType}}<{{inputGenericType}}> requests)  {
-        {{defaultBody}};
+        {{{defaultBody}}};
     }
     {{/serverStreamingRequestMethods}}
     {{#clientStreamingRequestMethods}}
@@ -38,7 +38,7 @@ public interface {{className}} {
     {{{javaDoc}}}
     {{/javaDoc}}
     default {{outputType}}<{{outputGenericType}}> {{methodNameCamelCase}}({{inputType}}<{{inputGenericType}}> requests)  {
-        {{defaultBody}};
+        {{{defaultBody}}};
     }
     {{/clientStreamingRequestMethods}}
     {{#bidiStreamingRequestMethods}}
@@ -47,7 +47,7 @@ public interface {{className}} {
     {{{javaDoc}}}
     {{/javaDoc}}
     default {{outputType}}<{{outputGenericType}}> {{methodNameCamelCase}}({{inputType}}<{{inputGenericType}}> requests)  {
-        {{defaultBody}};
+        {{{defaultBody}}};
     }
     {{/bidiStreamingRequestMethods}}
 }

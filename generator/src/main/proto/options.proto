@@ -11,8 +11,26 @@ enum GenerationType {
     GRPC_UNARY = 1;
 }
 
+enum InterfaceMethodBodyType {
+	RETURN = 0;
+	THROW = 1;
+}
+
+enum ReactiveXVersion {
+	V_2 = 0;
+	V_3 = 1;
+}
+
 extend google.protobuf.ServiceOptions {
     GenerationType generation_type = 81878;
     string version = 81879;
+	ReactiveXVersion service_reactivex_version = 81880;
 }
 
+extend google.protobuf.MethodOptions {
+    InterfaceMethodBodyType interface_method_body_type = 81878;
+}
+
+extend google.protobuf.FileOptions {
+	ReactiveXVersion file_reactivex_version = 81878;
+}
