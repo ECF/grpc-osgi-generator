@@ -47,9 +47,24 @@ public class OSGiGenerator extends Generator {
 
 	private static final String DEFAULT_BODY_NULL_RETURN = "return null";
 
+	private boolean useRx3 = false;
+	
+	protected OSGiGenerator(boolean rx3) {
+		this.useRx3 = rx3;
+	}
+	
 	public static void main(String[] args) throws Exception {
+		boolean useRx3 = false;
+		if (args.length > 0) {
+			List<String> argsList = new ArrayList<String>(Arrays.asList(args));
+			if (argsList.contains("rxjava3")) {
+				useRx3 = true;
+				argsList.remove("rxjava3");
+				args = argsList.toArray(new String[argsList.size()]);
+			}
+		}
 		List<Generator> generators = new ArrayList<Generator>();
-		generators.add(new OSGiGenerator());
+		generators.add(new OSGiGenerator(useRx3));
 		@SuppressWarnings("rawtypes")
 		List<GeneratedExtension> extensions = new ArrayList<GeneratedExtension>();
 		extensions.add(OsgiServiceOptionsProto.generationType);
@@ -77,7 +92,7 @@ public class OSGiGenerator extends Generator {
 			for (int serviceNumber = 0; serviceNumber < fileProto.getServiceCount(); serviceNumber++) {
 				ServiceContext serviceContext = buildServiceContext(fileProto.getService(serviceNumber), typeMap,
 						fileProto.getSourceCodeInfo().getLocationList(), serviceNumber,
-						fileProto.getOptions().getExtension(OsgiServiceOptionsProto.fileReactivexVersion));
+						useRx3?ReactiveXVersion.V_3:fileProto.getOptions().getExtension(OsgiServiceOptionsProto.fileReactivexVersion));
 				serviceContext.protoName = fileProto.getName();
 				serviceContext.packageName = extractPackageName(fileProto);
 				contexts.add(serviceContext);

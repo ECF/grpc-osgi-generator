@@ -12,7 +12,6 @@ option java_outer_classname = "HelloWorldProto";
  * Define the service's operations
  */
 service Greeter {
-    option (generation_type) = GRPC_UNARY;
     /*
      * Greet
      */
@@ -23,7 +22,6 @@ service Greeter {
  * Define the service's operations
  */
 service Greeter1 {
-    option (service_reactivex_version) = V_3;
     /*
      * Greet1
      */

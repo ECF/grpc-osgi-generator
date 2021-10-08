@@ -102,8 +102,8 @@
 									<id>grpc-osgi-generator</id>
 									<groupId>org.eclipse.ecf</groupId>
 									<artifactId>grpc-osgi-generator</artifactId>
-									<version>1.6.0</version>
-									<mainClass>org.eclipse.ecf.grpc.osgigenerator.OSGiGenerator</mainClass>
+									<version>1.8.0</version>
+									<mainClass>org.eclipse.ecf.grpc.osgigenerator.RxJava3OSGiGenerator</mainClass>
 								</protocPlugin>
 								<protocPlugin> 
 									<id>dump</id>
