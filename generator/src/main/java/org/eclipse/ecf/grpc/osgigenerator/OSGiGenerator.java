@@ -49,22 +49,9 @@ public class OSGiGenerator extends Generator {
 
 	private boolean useRx3 = false;
 	
-	protected OSGiGenerator(boolean rx3) {
-		this.useRx3 = rx3;
-	}
-	
 	public static void main(String[] args) throws Exception {
-		boolean useRx3 = false;
-		if (args.length > 0) {
-			List<String> argsList = new ArrayList<String>(Arrays.asList(args));
-			if (argsList.contains("rxjava3")) {
-				useRx3 = true;
-				argsList.remove("rxjava3");
-				args = argsList.toArray(new String[argsList.size()]);
-			}
-		}
 		List<Generator> generators = new ArrayList<Generator>();
-		generators.add(new OSGiGenerator(useRx3));
+		generators.add(new OSGiGenerator());
 		@SuppressWarnings("rawtypes")
 		List<GeneratedExtension> extensions = new ArrayList<GeneratedExtension>();
 		extensions.add(OsgiServiceOptionsProto.generationType);
@@ -80,6 +67,10 @@ public class OSGiGenerator extends Generator {
 
 	@Override
 	public List<File> generateFiles(CodeGeneratorRequest request) throws GeneratorException {
+		String param = request.getParameter();
+		if ("rxjava3".equals(param)) {
+			this.useRx3 = true;
+		}
 		return generateFiles(findServices(request.getProtoFileList().stream()
 				.filter(protoFile -> request.getFileToGenerateList().contains(protoFile.getName()))
 				.collect(Collectors.toList()), ProtoTypeMap.of(request.getProtoFileList())));

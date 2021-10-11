@@ -103,7 +103,8 @@
 									<groupId>org.eclipse.ecf</groupId>
 									<artifactId>grpc-osgi-generator</artifactId>
 									<version>1.8.0</version>
-									<mainClass>org.eclipse.ecf.grpc.osgigenerator.RxJava3OSGiGenerator</mainClass>
+									<mainClass>org.eclipse.ecf.grpc.osgigenerator.OSGiGenerator</mainClass>
+									<args><arg>rxjava3</arg></args>
 								</protocPlugin>
 								<protocPlugin> 
 									<id>dump</id>
